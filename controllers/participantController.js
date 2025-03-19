@@ -122,7 +122,10 @@ const deleteParticipant = async (req, res) => {
     if (!participant) {
       return res.status(404).json({ error: "Participante não encontrado" });
     }
+
     res.status(200).json({ message: "Participante deletado com sucesso" });
+    return true;
+    
   } catch (error) {
     res.status(500).json({ error: "Erro interno no servidor" });
   }

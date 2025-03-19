@@ -15,6 +15,11 @@ const conectandoDB = require("./database/db.js");
 // Inicializar o servidor Express
 const app = express();
 
+const server = new ApolloServer({
+  typeDefs,
+  resolvers,
+});
+
 app.use(cors());
 app.use(express.json());
 app.use(bodyParser.json()); 
@@ -25,9 +30,20 @@ app.use("/api", organizerRoutes);
 app.use("/api", eventRoutes);
 app.use("/api", participantRoutes);
 
+//Função para inicializar o Apollo Server
+const startServer = async () => {
+  // Inicia o Apollo Server
+  await server.start();
+
+  // Aplica o middleware do Apollo Server no Express
+  server.applyMiddleware({ app });
+
+  const port = 4000;
+  app.listen(port, () => {
+    console.log(`Servidor rodando na porta ${port}`);
+  });
+};
 
 
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Aplicação rodando na porta ${port}`);
-});
+startServer();
+

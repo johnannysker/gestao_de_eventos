@@ -5,7 +5,13 @@ const mongoose = require('mongoose');
 // Criar um evento
 const createEvent = async (req, res) => {
   try {
+
     const { title, description, organizerId } = req.body;
+
+    // Verificar se o ID tem o formato correto de ObjectId
+    if (!mongoose.Types.ObjectId.isValid(organizerId)) {
+      return res.status(400).json({ error: 'ID inválido' });
+    }
 
     const organizer = await Organizer.findById(organizerId);
     if (!organizer) return res.status(404).json({ error: "Organizador não encontrado" });
@@ -96,7 +102,10 @@ const deleteEvent = async (req, res) => {
     if (!event) {
       return res.status(404).json({ error: "Evento não encontrado" });
     }
+
     res.status(200).json({ message: "Evento deletado com sucesso" });
+    return true;
+
   } catch (error) {
     res.status(500).json({ error: "Erro interno no servidor" });
   }

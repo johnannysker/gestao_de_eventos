@@ -86,12 +86,14 @@ const deleteOrganizer = async (req, res) => {
     if (!mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({ error: 'ID inválido' });
     }
-    
     const organizer = await Organizer.findByIdAndDelete(req.params.id);
     if (!organizer) {
       return res.status(404).json({ error: "Organizador não encontrado" });
     }
+
     res.status(200).json({ message: "Organizador deletado com sucesso" });
+    return true;
+    
   } catch (error) {
     res.status(500).json({ error: "Erro interno no servidor" });
   }

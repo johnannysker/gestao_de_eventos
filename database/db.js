@@ -1,16 +1,23 @@
-import mongoose from "mongoose";
+let mongoose = require('mongoose');
 
-const conectandoDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
-    console.log(" MongoDB conectado!");
-  } catch (error) {
-    console.error(" Erro ao conectar ao MongoDB:", error);
-    process.exit(1);
+const server = 'localhost:27017'; // COLOQUE O NOME DO SEU SERVIDOR DO BANCO DE DADOS
+const database = 'eventmanager';      // COLOQUE O NOME DO SEU BANCO DE DADOS
+
+class Database {
+  constructor() {
+    this._connect()
   }
-};
+  
+_connect() {
+     mongoose.connect(`mongodb://${server}/${database}`)
+       .then(() => {
+         console.log('Database connection successful')
+       })
+       .catch(err => {
+         console.error('Database connection error')
+       })
+  }
+}
 
-export default conectandoDB;
+module.exports = new Database()
+

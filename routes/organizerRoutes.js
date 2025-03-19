@@ -1,12 +1,12 @@
-import express from "express";
-import { getOrganizers, getOrganizerById, createOrganizer, updateOrganizer, deleteOrganizer } from "../controllers/organizerController.js";
-
+const express = require("express");
 const router = express.Router();
+const organizerController = require("../controllers/organizerController.js");
+const WithAuth = require('../middleware/authMiddleware');
 
-router.get("/", getOrganizers); 
-router.get("/:id", getOrganizerById); 
-router.post("/", createOrganizer); 
-router.put("/:id", updateOrganizer); 
-router.delete("/:id", deleteOrganizer); 
+router.get("/organizers", organizerController.getOrganizers); 
+router.get("/organizer/:id", organizerController.getOrganizerById); 
+router.post("/organizer", WithAuth, organizerController.createOrganizer); 
+router.put("/organizer/:id", WithAuth, organizerController.updateOrganizer); 
+router.delete("/organizer/:id", WithAuth, organizerController.deleteOrganizer); 
 
-export default router;
+module.exports = router;

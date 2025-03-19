@@ -1,12 +1,12 @@
-import express from "express";
-import { getParticipants, getParticipantById, createParticipant, updateParticipant, deleteParticipant } from "../controllers/participantController.js";
-
+const express = require("express");
 const router = express.Router();
+const participantController = require("../controllers/participantController.js");
+const WithAuth = require('../middleware/authMiddleware');
 
-router.get("/", getParticipants);
-router.get("/:id", getParticipantById);
-router.post("/", createParticipant);
-router.put("/:id", updateParticipant);
-router.delete("/:id", deleteParticipant);
+router.get("/participants", participantController.getParticipants);
+router.get("/participant/:id", participantController.getParticipantById);
+router.post("/participant", WithAuth, participantController.createParticipant);
+router.put("/participant/:id", WithAuth, participantController.updateParticipant);
+router.delete("/participant/:id", WithAuth, participantController.deleteParticipant);
 
-export default router;
+module.exports = router;

@@ -1,8 +1,8 @@
-import jwt from "jsonwebtoken";
-import bcrypt from "bcrypt";
-import Event from "../models/Event.js";
-import Organizer from "../models/Organizer.js";
-import authMiddleware from "../authMiddleware.js";
+const WithAuth = require('../middleware/authMiddleware');
+const jwt = require("jsonwebtoken")
+const bcrypt = require("bcrypt")
+const Event = require("../models/Event.js")
+const Organizer = require("../models/Organizer.js")
 
 const resolvers = {
   Query: {
@@ -14,7 +14,7 @@ const resolvers = {
 
   Mutation: {
     createEvent: async (_, { title, description, organizerId }, context) => {
-      const user = authMiddleware(context);
+      const user = WithAuth(context);
       if (!user) throw new Error("Acesso negado! Faça login.");
 
       try {
@@ -58,4 +58,4 @@ const resolvers = {
   }
 };
 
-export default resolvers;
+module.exports = resolvers;

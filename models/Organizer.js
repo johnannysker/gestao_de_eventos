@@ -1,18 +1,11 @@
-import mongoose from 'mongoose';
+const mongoose = require("mongoose");
 
 
 const organizerSchema = new mongoose.Schema({
   name: { type: String, required: true },
   email: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  profile: {
-    bio: { type: String },
-    avatar: { type: String }
-  }
+  created_at: { type: Date, default: Date.now }
 });
 
-
-
-const Organizer = mongoose.model("Organizer", organizerSchema);
-
-export default Organizer;
+module.exports = mongoose.model("Organizer", organizerSchema);

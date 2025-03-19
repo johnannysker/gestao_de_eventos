@@ -1,8 +1,8 @@
-import Event from "../models/Event.js";
-import Organizer from "../models/Organizer.js";
+const Event = require("../models/Event.js");
+const Organizer = require("../models/Organizer.js");
 
 // Criar um evento
-export const createEvent = async (req, res) => {
+const createEvent = async (req, res) => {
   try {
     const { title, description, organizerId } = req.body;
 
@@ -19,34 +19,63 @@ export const createEvent = async (req, res) => {
 };
 
 // Listar todos os eventos
-export const getEvents = async (req, res) => {
-  const events = await Event.find().populate("organizer", "name email");
-  res.json(events);
+const getEvents = async (req, res) => {
+  try {
+    const events = await Event.find().populate("organizer", "name email");
+    res.status(200).json(events);
+  } catch (error) {
+    res.status(500).json({ error: "Erro interno no servidor" });
+  }
 };
+
 
 // Buscar evento por ID
-export const getEventById = async (req, res) => {
-  const event = await Event.findById(req.params.id).populate("organizer", "name email");
-  if (!event) return res.status(404).json({ error: "Evento não encontrado" });
-  res.json(event);
+const getEventById = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id).populate("organizer", "name email");
+    if (!event) {
+      return res.status(404).json({ error: "Evento não encontrado" });
+    }
+    res.status(200).json(event);
+  } catch (error) {
+    res.status(500).json({ error: "Erro interno no servidor" });
+  }
 };
+
 
 // Atualizar um evento
-export const updateEvent = async (req, res) => {
-  const { title, description } = req.body;
-  const event = await Event.findByIdAndUpdate(
-    req.params.id,
-    { title, description },
-    { new: true }
-  );
+const updateEvent = async (req, res) => {
+  try {
+    const { title, description } = req.body;
+    const event = await Event.findByIdAndUpdate(
+      req.params.id,
+      { title, description },
+      { new: true }
+    );
 
-  if (!event) return res.status(404).json({ error: "Evento não encontrado" });
-  res.json(event);
+    if (!event) {
+      return res.status(404).json({ error: "Evento não encontrado" });
+    }
+
+    res.status(200).json(event);
+  } catch (error) {
+    res.status(500).json({ error: "Erro interno no servidor" });
+  }
 };
+
 
 // Deletar um evento
-export const deleteEvent = async (req, res) => {
-  const event = await Event.findByIdAndDelete(req.params.id);
-  if (!event) return res.status(404).json({ error: "Evento não encontrado" });
-  res.json({ message: "Evento deletado com sucesso" });
+const deleteEvent = async (req, res) => {
+  try {
+    const event = await Event.findByIdAndDelete(req.params.id);
+    if (!event) {
+      return res.status(404).json({ error: "Evento não encontrado" });
+    }
+    res.status(200).json({ message: "Evento deletado com sucesso" });
+  } catch (error) {
+    res.status(500).json({ error: "Erro interno no servidor" });
+  }
 };
+
+
+module.exports = { createEvent, getEvents, getEventById, updateEvent, deleteEvent };

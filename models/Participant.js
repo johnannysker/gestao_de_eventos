@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require("mongoose");
 
 const ParticipantSchema = new mongoose.Schema({
   name: { type: String, required: true },
@@ -6,4 +6,4 @@ const ParticipantSchema = new mongoose.Schema({
   registeredEvents: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Event' }]
 });
 
-export default mongoose.model('Participant', ParticipantSchema);
+module.exports = mongoose.model('Participant', ParticipantSchema);

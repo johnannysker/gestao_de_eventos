@@ -1,39 +1,52 @@
-import express from "express";
-import { ApolloServer } from "apollo-server-express";
-import dotenv from "dotenv";
-import cors from "cors";
-import conectandoDB from "./database/db.js";
-import typeDefs from "./graphql/typeDefs.js";
-import resolvers from "./graphql/resolvers.js";
-import organizerRoutes from "./routes/organizerRoutes.js";
-import eventRoutes from "./routes/eventRoutes.js";
-import participantRoutes from "./routes/participantRoutes.js";
+const express = require("express");
+const bodyParser = require("body-parser");
+const dotenv = require("dotenv");
+const cors = require("cors");
+const typeDefs = require("./graphql/typeDefs.js");
+const resolvers = require("./graphql/resolvers.js");
+const loginRouter = require("./routes/authRoutes.js");
+const organizerRoutes = require("./routes/organizerRoutes.js");
+const eventRoutes = require("./routes/eventRoutes.js");
+const participantRoutes = require("./routes/participantRoutes.js");
+const { ApolloServer } = require('apollo-server-express');
 
-// Carregar variáveis de ambiente
-dotenv.config();
-
-// Conectar ao MongoDB
-conectandoDB();
+const conectandoDB = require("./database/db.js");
 
 // Inicializar o servidor Express
 const app = express();
+
+// const server = new ApolloServer({
+//   typeDefs,
+//   resolvers,
+// });
+
 app.use(cors());
 app.use(express.json());
+app.use(bodyParser.json()); 
 
 // Rotas RESTful
-app.use("/api/organizers", organizerRoutes);
-app.use("/api/events", eventRoutes);
-app.use("/api/participants", participantRoutes);
+app.use("/api", loginRouter);
+app.use("/api", organizerRoutes);
+app.use("/api", eventRoutes);
+app.use("/api", participantRoutes);
 
-// Configuração do Apollo Server (GraphQL)
-const server = new ApolloServer({ typeDefs, resolvers });
+// //Função para inicializar o Apollo Server
+// const startServer = async () => {
+//   // Inicia o Apollo Server
+//   await server.start();
 
-server.start().then(() => {
-  server.applyMiddleware({ app });
+//   // Aplica o middleware do Apollo Server no Express
+//   server.applyMiddleware({ app });
 
-  app.listen(4000, () => {
-    console.log(" Servidor rodando:");
-    console.log(" API REST: http://localhost:4000/api");
-    console.log(" GraphQL Playground: http://localhost:4000/graphql");
-  });
+//   const port = 4000;
+//   app.listen(port, () => {
+//     console.log(`Servidor rodando na porta ${port}`);
+//   });
+// };
+
+// startServer();
+
+const port = 3000;
+app.listen(port, () => {
+  console.log(`Aplicação rodando na porta ${port}`);
 });

@@ -1,9 +1,8 @@
-import Organizer from "../models/Organizer.js";
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+const bcrypt = require("bcrypt");
+const Organizer = require("../models/Organizer.js");
 
 // Criar um organizador
-export const createOrganizer = async (req, res) => {
+const createOrganizer = async (req, res) => {
   try {
     const { name, email, password } = req.body;
     const existingOrganizer = await Organizer.findOne({ email });
@@ -21,29 +20,56 @@ export const createOrganizer = async (req, res) => {
 };
 
 // Listar todos os organizadores
-export const getOrganizers = async (req, res) => {
-  const organizers = await Organizer.find();
-  res.json(organizers);
+const getOrganizers = async (req, res) => {
+  try {
+    const organizers = await Organizer.find();
+    res.status(200).json(organizers);
+  } catch (error) {
+    res.status(500).json({ error: "Erro interno no servidor" });
+  }
 };
+
 
 // Buscar organizador por ID
-export const getOrganizerById = async (req, res) => {
-  const organizer = await Organizer.findById(req.params.id);
-  if (!organizer) return res.status(404).json({ error: "Organizador não encontrado" });
-  res.json(organizer);
+const getOrganizerById = async (req, res) => {
+  try {
+    const organizer = await Organizer.findById(req.params.id);
+    if (!organizer) {
+      return res.status(404).json({ error: "Organizador não encontrado" });
+    }
+    res.status(200).json(organizer);
+  } catch (error) {
+    res.status(500).json({ error: "Erro interno no servidor" });
+  }
 };
+
 
 // Atualizar um organizador
-export const updateOrganizer = async (req, res) => {
-  const { name, email } = req.body;
-  const organizer = await Organizer.findByIdAndUpdate(req.params.id, { name, email }, { new: true });
-  if (!organizer) return res.status(404).json({ error: "Organizador não encontrado" });
-  res.json(organizer);
+const updateOrganizer = async (req, res) => {
+  try {
+    const { name, email } = req.body;
+    const organizer = await Organizer.findByIdAndUpdate(req.params.id, { name, email }, { new: true });
+    if (!organizer) {
+      return res.status(404).json({ error: "Organizador não encontrado" });
+    }
+    res.status(200).json(organizer);
+  } catch (error) {
+    res.status(500).json({ error: "Erro interno no servidor" });
+  }
 };
 
+
 // Deletar um organizador
-export const deleteOrganizer = async (req, res) => {
-  const organizer = await Organizer.findByIdAndDelete(req.params.id);
-  if (!organizer) return res.status(404).json({ error: "Organizador não encontrado" });
-  res.json({ message: "Organizador deletado com sucesso" });
+const deleteOrganizer = async (req, res) => {
+  try {
+    const organizer = await Organizer.findByIdAndDelete(req.params.id);
+    if (!organizer) {
+      return res.status(404).json({ error: "Organizador não encontrado" });
+    }
+    res.status(200).json({ message: "Organizador deletado com sucesso" });
+  } catch (error) {
+    res.status(500).json({ error: "Erro interno no servidor" });
+  }
 };
+
+module.exports = { createOrganizer, getOrganizers, getOrganizerById, updateOrganizer, deleteOrganizer };

@@ -1,4 +1,4 @@
-import mongoose from 'mongoose';
+const mongoose = require("mongoose");
 
 const TalkSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -6,4 +6,4 @@ const TalkSchema = new mongoose.Schema({
   speaker: String
 });
 
-export default mongoose.model('Talk', TalkSchema);
+module.exports = mongoose.model('Talk', TalkSchema);

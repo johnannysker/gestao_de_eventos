@@ -1,5 +1,5 @@
 import Organizer from "../models/Organizer.js";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 
 // Criar um organizador
@@ -9,7 +9,9 @@ export const createOrganizer = async (req, res) => {
     const existingOrganizer = await Organizer.findOne({ email });
     if (existingOrganizer) return res.status(400).json({ error: "E-mail já cadastrado" });
 
-    const organizer = new Organizer({ name, email, password });
+
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const organizer = new Organizer({ name, email, password: hashedPassword });
     await organizer.save();
 
     res.status(201).json(organizer);

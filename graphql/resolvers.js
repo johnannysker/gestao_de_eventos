@@ -1,8 +1,8 @@
 import jwt from "jsonwebtoken";
-import bcrypt from "bcryptjs";
+import bcrypt from "bcrypt";
 import Event from "../models/Event.js";
 import Organizer from "../models/Organizer.js";
-import authMiddleware from "../middlewares/authMiddleware.js";
+import authMiddleware from "../authMiddleware.js";
 
 const resolvers = {
   Query: {

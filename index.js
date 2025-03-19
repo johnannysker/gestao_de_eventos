@@ -2,7 +2,7 @@ import express from "express";
 import { ApolloServer } from "apollo-server-express";
 import dotenv from "dotenv";
 import cors from "cors";
-import conectandoDB from "./config/db.js";
+import conectandoDB from "./database/db.js";
 import typeDefs from "./graphql/typeDefs.js";
 import resolvers from "./graphql/resolvers.js";
 import organizerRoutes from "./routes/organizerRoutes.js";

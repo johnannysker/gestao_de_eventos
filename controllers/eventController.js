@@ -1,5 +1,6 @@
 const Event = require("../models/Event.js");
 const Organizer = require("../models/Organizer.js");
+const mongoose = require('mongoose');
 
 // Criar um evento
 const createEvent = async (req, res) => {

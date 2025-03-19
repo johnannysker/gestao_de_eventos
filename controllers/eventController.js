@@ -32,6 +32,14 @@ const getEvents = async (req, res) => {
 // Buscar evento por ID
 const getEventById = async (req, res) => {
   try {
+
+    const { id } = req.params;
+
+    // Verificar se o ID tem o formato correto de ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'ID inválido' });
+    }
+    
     const event = await Event.findById(req.params.id).populate("organizer", "name email");
     if (!event) {
       return res.status(404).json({ error: "Evento não encontrado" });
@@ -46,6 +54,14 @@ const getEventById = async (req, res) => {
 // Atualizar um evento
 const updateEvent = async (req, res) => {
   try {
+
+    const { id } = req.params;
+
+    // Verificar se o ID tem o formato correto de ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'ID inválido' });
+    }
+
     const { title, description } = req.body;
     const event = await Event.findByIdAndUpdate(
       req.params.id,
@@ -67,6 +83,14 @@ const updateEvent = async (req, res) => {
 // Deletar um evento
 const deleteEvent = async (req, res) => {
   try {
+
+    const { id } = req.params;
+
+    // Verificar se o ID tem o formato correto de ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'ID inválido' });
+    }
+
     const event = await Event.findByIdAndDelete(req.params.id);
     if (!event) {
       return res.status(404).json({ error: "Evento não encontrado" });

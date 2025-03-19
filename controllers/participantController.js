@@ -1,5 +1,6 @@
 const Participant = require("../models/Participant.js")
 const Event = require("../models/Event.js")
+const mongoose = require('mongoose');
 
 // Criar um participante
 const createParticipant = async (req, res) => {
@@ -32,6 +33,14 @@ const getParticipants = async (req, res) => {
 // Buscar participante por ID
 const getParticipantById = async (req, res) => {
   try {
+
+    const { id } = req.params;
+    
+    // Verificar se o ID tem o formato correto de ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'ID inválido' });
+    }
+
     const participant = await Participant.findById(req.params.id);
     if (!participant) {
       return res.status(404).json({ error: "Participante não encontrado" });
@@ -46,6 +55,14 @@ const getParticipantById = async (req, res) => {
 // Registrar um participante em um evento
 const registerParticipant = async (req, res) => {
   try {
+
+    const { id } = req.params;
+    
+    // Verificar se o ID tem o formato correto de ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'ID inválido' });
+    }
+
     const { eventId } = req.body;
     const participant = await Participant.findById(req.params.id);
     const event = await Event.findById(eventId);
@@ -68,6 +85,14 @@ const registerParticipant = async (req, res) => {
 // Atualizar um participante
 const updateParticipant = async (req, res) => {
   try {
+
+    const { id } = req.params;
+    
+    // Verificar se o ID tem o formato correto de ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'ID inválido' });
+    }
+
     const { name, email } = req.body;
     const participant = await Participant.findByIdAndUpdate(req.params.id, { name, email }, { new: true });
 
@@ -85,6 +110,14 @@ const updateParticipant = async (req, res) => {
 // Deletar um participante
 const deleteParticipant = async (req, res) => {
   try {
+
+    const { id } = req.params;
+    
+    // Verificar se o ID tem o formato correto de ObjectId
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({ error: 'ID inválido' });
+    }
+
     const participant = await Participant.findByIdAndDelete(req.params.id);
     if (!participant) {
       return res.status(404).json({ error: "Participante não encontrado" });

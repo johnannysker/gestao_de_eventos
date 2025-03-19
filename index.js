@@ -171,6 +171,6 @@ server.start().then(() => {
   server.applyMiddleware({ app });
 
   app.listen(4000, () => {
-    console.log('🚀 Servidor rodando em http://localhost:4000/graphql');
+    console.log('Servidor rodando em http://localhost:4000/graphql');
   });
 });

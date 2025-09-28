@@ -66,8 +66,6 @@ function EventCard({ event, token }) {
         <>
           <h3>{event.title}</h3>
           <p>{event.description}</p>
-          <button onClick={() => setIsEditing(true)}>Editar</button>
-          <button className='delete' onClick={handleDelete}>Deletar</button>
           <select
             value={participantId}
             onChange={(e) => setParticipantId(e.target.value)}
@@ -88,6 +86,8 @@ function EventCard({ event, token }) {
               <li>Nenhum</li>
             )}
           </ul>
+          <button onClick={() => setIsEditing(true)}>Editar</button>
+          <button className='delete' onClick={handleDelete}>Deletar</button>
         </>
       )}
     </div>

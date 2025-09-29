@@ -1,23 +1,27 @@
-let mongoose = require('mongoose');
+const mongoose = require("mongoose");
+const dotenv = require("dotenv");
 
-const server = 'localhost:27017'; // COLOQUE O NOME DO SEU SERVIDOR DO BANCO DE DADOS
-const database = 'eventmanager';      // COLOQUE O NOME DO SEU BANCO DE DADOS
+dotenv.config(); // Carrega as variáveis do .env
 
 class Database {
   constructor() {
-    this._connect()
+    this._connect();
   }
-  
-_connect() {
-     mongoose.connect(`mongodb://${server}/${database}`)
-       .then(() => {
-         console.log('Database connection successful')
-       })
-       .catch(err => {
-         console.error('Database connection error')
-       })
+
+  _connect() {
+    mongoose
+      .connect(process.env.MONGO_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      })
+      .then(() => {
+        console.log("✅ Conectado ao MongoDB Atlas");
+      })
+      .catch((err) => {
+        console.error("❌ Erro ao conectar no MongoDB Atlas:", err.message);
+      });
   }
 }
 
-module.exports = new Database()
+module.exports = new Database();
 

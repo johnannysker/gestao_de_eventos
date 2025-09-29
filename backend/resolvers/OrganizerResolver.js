@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken")
 const bcrypt = require("bcrypt")
 const Event = require("../models/Event.js")
 const Organizer = require("../models/Organizer.js")
-const organizerControllerGraphQL = require('../controllers/OrganizerControllerGraphQL.js');
+const organizerControllerGraphQL = require('../controllers/organizerControllerGraphQL.js');
 
 const resolvers = {
   Query: {

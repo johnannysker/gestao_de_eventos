@@ -11,7 +11,7 @@ const participantRoutes = require("./routes/participantRoutes.js");
 const { ApolloServer } = require('apollo-server-express');
 
 const conectandoDB = require("./database/db.js");
-
+dotenv.config();
 // Inicializar o servidor Express
 const app = express();
 
@@ -27,7 +27,7 @@ app.use("/api", participantRoutes);
 
 
 
-const port = 3000;
+const port = process.env.PORT || 4000;
 app.listen(port, () => {
   console.log(`Aplicação rodando na porta ${port}`);
 });
